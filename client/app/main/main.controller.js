@@ -2,7 +2,7 @@
 
 angular.module('ngKartApp')
   .controller('MainCtrl', function ($scope, $http, socket) {
-    $scope.awesomeThings = [];
+    /*$scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
@@ -23,5 +23,9 @@ angular.module('ngKartApp')
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('thing');
-    });
+    });*/
+    
+    
+    
+    
   });

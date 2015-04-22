@@ -18,6 +18,13 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/tax/tax.socket').register(socket);
+  require('../api/order/order.socket').register(socket);
+  require('../api/customer/customer.socket').register(socket);
+  require('../api/category/category.socket').register(socket);
+  require('../api/cart/cart.socket').register(socket);
+  require('../api/address/address.socket').register(socket);
+  require('../api/product/product.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
 }
 
