@@ -1,12 +1,14 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
 var TaxSchema = new Schema({
-  name: String,
-  info: String,
-  active: Boolean
+    "title": String,
+    "description": String,
+    "rate": Number,
+    "currency": ObjectId
 });
 
 module.exports = mongoose.model('Tax', TaxSchema);

@@ -3,36 +3,46 @@
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
-var Tax = require('./tax.model');
+var Image = require('./image.model');
 
 var mockData = {
-    "title": "My awesome tax band",
-    "description": "Awesome products are charged tax at 99% right?...",
-    "rate": "99.00",
-    "currency": "5524c0b34ea30f98178cbf11"
+    "name": "artistscrayons.jpg",
+    "url": {
+        "http": "http://commercecdn.com/1/artistscrayons.jpg",
+        "https": "https://commercecdn.com/1/artistscrayons.jpg"
+    },
+    "segments": {
+        "domain": "commercecdn.com/",
+        "suffix": "1/artistscrayons.jpg"
+    }
 }
 
 var updatedMockData = {
-    "title": "My awesome tax band Updated",
-    "description": "Awesome products are charged tax at 99% right?...",
-    "rate": "99.00",
-    "currency": "7774c0b34ea30f98178cbf11"
+    "name": "updatedartistscrayons.jpg",
+    "url": {
+        "http": "http://commercecdn.com/1/artistscrayons.jpg",
+        "https": "https://commercecdn.com/1/artistscrayons.jpg"
+    },
+    "segments": {
+        "domain": "commercecdn.com/",
+        "suffix": "1/artistscrayons.jpg"
+    }
 }
 
-var taxId = '';
+var imageId = '';
 
-describe('/api/taxes', function() {
+describe('/api/images', function() {
 
     before(function(done) {
-        // Clear taxes before testing
-        Tax.remove().exec().then(function() {
+        // Clear images before testing
+        Image.remove().exec().then(function() {
             done();
         });
     });
 
-    it('should POST tax data', function(done) {
+    it('should POST image data', function(done) {
         request(app)
-            .post('/api/taxes')
+            .post('/api/images')
             .set('Content-Type', 'application/json')
             .send(mockData)
             .expect(201)
@@ -40,65 +50,65 @@ describe('/api/taxes', function() {
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("5524c0b34ea30f98178cbf11");
-                taxId = res.body._id;
+                res.body.name.should.equal("artistscrayons.jpg");
+                imageId = res.body._id;
                 done();
             });
     });
 
-    it('should GET all the taxes', function(done) {
+    it('should GET all the images', function(done) {
         request(app)
-            .get('/api/taxes')
+            .get('/api/images')
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Array);
-                res.body[0].currency.should.equal("5524c0b34ea30f98178cbf11");
+                res.body[0].name.should.equal("artistscrayons.jpg");
                 done();
             });
     });
 
-    it('should GET tax by id', function(done) {
+    it('should GET image by id', function(done) {
         request(app)
-            .get('/api/taxes/' + taxId)
+            .get('/api/images/' + imageId)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("5524c0b34ea30f98178cbf11");
+                res.body.name.should.equal("artistscrayons.jpg");
                 done();
             });
     });
 
-    it('should update tax by id using PUT method', function(done) {
+    it('should update image by id using PUT method', function(done) {
         request(app)
-            .put('/api/taxes/' + taxId)
+            .put('/api/images/' + imageId)
             .send(updatedMockData)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("7774c0b34ea30f98178cbf11");
+                res.body.name.should.equal("updatedartistscrayons.jpg");
                 done();
             });
     });
 
-    it('should update tax by id using PATCH method', function(done) {
+    it('should update image by id using PATCH method', function(done) {
         request(app)
-            .patch('/api/taxes/' + taxId)
+            .patch('/api/images/' + imageId)
             .send(mockData)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("5524c0b34ea30f98178cbf11");
+                res.body.name.should.equal("artistscrayons.jpg");
                 done();
             });
     });
 
-    it('should delete tax by id using delete method', function(done) {
+    it('should delete image by id using delete method', function(done) {
         request(app)
-            .delete('/api/taxes/' + taxId)
+            .delete('/api/images/' + imageId)
             .expect(204)
             .end(function(err, res) {
                 if (err) return done(err);

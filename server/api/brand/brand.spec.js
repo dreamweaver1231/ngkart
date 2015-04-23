@@ -3,36 +3,44 @@
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
-var Tax = require('./tax.model');
+var Brand = require('./brand.model');
 
 var mockData = {
-    "title": "My awesome tax band",
-    "description": "Awesome products are charged tax at 99% right?...",
-    "rate": "99.00",
-    "currency": "5524c0b34ea30f98178cbf11"
+    "title": "Example Brand",
+    "slug": "example-brand",
+    "status": {
+        "key": "1",
+        "value": "Live"
+    },
+    "description": "Example brand description",
+    "images": []
 }
 
 var updatedMockData = {
-    "title": "My awesome tax band Updated",
-    "description": "Awesome products are charged tax at 99% right?...",
-    "rate": "99.00",
-    "currency": "7774c0b34ea30f98178cbf11"
+    "title": "Example Brand Updated",
+    "slug": "example-brand",
+    "status": {
+        "key": "1",
+        "value": "Live"
+    },
+    "description": "Example brand description",
+    "images": []
 }
 
-var taxId = '';
+var brandId = '';
 
-describe('/api/taxes', function() {
+describe('/api/brands', function() {
 
     before(function(done) {
-        // Clear taxes before testing
-        Tax.remove().exec().then(function() {
+        // Clear brands before testing
+        Brand.remove().exec().then(function() {
             done();
         });
     });
 
-    it('should POST tax data', function(done) {
+    it('should POST brand data', function(done) {
         request(app)
-            .post('/api/taxes')
+            .post('/api/brands')
             .set('Content-Type', 'application/json')
             .send(mockData)
             .expect(201)
@@ -40,65 +48,65 @@ describe('/api/taxes', function() {
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("5524c0b34ea30f98178cbf11");
-                taxId = res.body._id;
+                res.body.title.should.equal("Example Brand");
+                brandId = res.body._id;
                 done();
             });
     });
 
-    it('should GET all the taxes', function(done) {
+    it('should GET all the brands', function(done) {
         request(app)
-            .get('/api/taxes')
+            .get('/api/brands')
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Array);
-                res.body[0].currency.should.equal("5524c0b34ea30f98178cbf11");
+                res.body[0].title.should.equal("Example Brand");
                 done();
             });
     });
 
-    it('should GET tax by id', function(done) {
+    it('should GET brand by id', function(done) {
         request(app)
-            .get('/api/taxes/' + taxId)
+            .get('/api/brands/' + brandId)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("5524c0b34ea30f98178cbf11");
+                res.body.title.should.equal("Example Brand");
                 done();
             });
     });
 
-    it('should update tax by id using PUT method', function(done) {
+    it('should update brand by id using PUT method', function(done) {
         request(app)
-            .put('/api/taxes/' + taxId)
+            .put('/api/brands/' + brandId)
             .send(updatedMockData)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("7774c0b34ea30f98178cbf11");
+                res.body.title.should.equal("Example Brand Updated");
                 done();
             });
     });
 
-    it('should update tax by id using PATCH method', function(done) {
+    it('should update brand by id using PATCH method', function(done) {
         request(app)
-            .patch('/api/taxes/' + taxId)
+            .patch('/api/brands/' + brandId)
             .send(mockData)
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Object);
-                res.body.currency.should.equal("5524c0b34ea30f98178cbf11");
+                res.body.title.should.equal("Example Brand");
                 done();
             });
     });
 
-    it('should delete tax by id using delete method', function(done) {
+    it('should delete brand by id using delete method', function(done) {
         request(app)
-            .delete('/api/taxes/' + taxId)
+            .delete('/api/brands/' + brandId)
             .expect(204)
             .end(function(err, res) {
                 if (err) return done(err);

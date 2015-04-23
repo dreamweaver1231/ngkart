@@ -18,6 +18,10 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/currency/currency.socket').register(socket);
+  require('../api/shipping/shipping.socket').register(socket);
+  require('../api/image/image.socket').register(socket);
+  require('../api/brand/brand.socket').register(socket);
   require('../api/tax/tax.socket').register(socket);
   require('../api/order/order.socket').register(socket);
   require('../api/customer/customer.socket').register(socket);
